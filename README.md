@@ -17,8 +17,23 @@ Use free, open-source local LLM to generate queries, LLM provides us with core i
 
 #### Setup/Installation
 
-Install packages as below:<br>
+Install packages as below:
 pip install tqdm sentence-transformers accelerate bitsandbytes 
 
-<br>Make sure you have NVIDIA Cuda installed as per your GPU, if no GPU then just install torch<br>
-python -m pip install torch==2.5.1+cu124 --index-url https://download.pytorch.org/whl/cu124
+<br>Make sure you have NVIDIA Cuda installed as per your GPU, if no GPU then just install torch
+>python -m pip install torch==2.5.1+cu124 --index-url https://download.pytorch.org/whl/cu124
+
+<br>
+
+#### Usage Notes
+Notebook shows input and outputs implemented in a flow. You can check detailed comments added to understand analysis.<br>
+1.  `extract_dataframe` function has been created for more tech savvy people who might want to just extract dataframe and work on top of it
+2. And for normal usecases users can use `generate_query_response` which will return human readable text based on the extracted data.
+
+Sample Query:
+> generate_query_response("Give me ID of operation having the lowest non-zero total amount submitted ?")
+
+Model Response:
+> '\n    ### Model Response: Answer: The operation with the lowest non-zero total amount submitted is **RP 020625 2**.\n\n    ### Context SQL: SELECT Operation_Id FROM repo_table WHERE Total_Amt_Submitted_Billions > 0 ORDER BY Total_Amt_Submitted_Billions ASC LIMIT 1\n    '
+
+Response contains human readable answer provided by LLM and SQL query for context so users can verify on their own if model understood their query correctly and has extracted what they have intended and if response is not false positive/negative, hallucination or misinterpreted.
